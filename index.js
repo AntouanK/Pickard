@@ -9,22 +9,29 @@ var roboChrome,
 
 roboChrome = function(){
 
-  this.config = {
+  var thisRoboChrome = this;
+
+  thisRoboChrome.config = {
     port: portSeed += 1
   };
 
-  this.openPage = function(address){
+  thisRoboChrome.openPage = function(address){
 
-    chromeCommunication
+    return chromeCommunication
     .launch({
-      port: this.config.port,
+      port: thisRoboChrome.config.port,
       address: address
+    })
+    .then(function(debugTab){
+
+      thisRoboChrome.websocket = debugTab.webSocketDebuggerUrl;
+
+      return chromeCommunication
+      .openSocket(thisRoboChrome, thisRoboChrome.websocket);
     });
   };
 
-
-
-  return this;
+  return thisRoboChrome;
 };
 
 
