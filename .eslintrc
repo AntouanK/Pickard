@@ -6,7 +6,7 @@
     },
 
     "globals": {
-        "document": true
+        "Promise": true
     },
 
     "__instructions": "(1 is warn, 2 is error)",

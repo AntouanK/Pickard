@@ -1,4 +1,6 @@
 
+'use strict';
+
 var roboChrome,
     chromeCommunication = require('./lib/chrome-communication'),
     portSeed = 9400;
