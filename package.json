@@ -1,0 +1,18 @@
+{
+  "name": "robo-chrome",
+  "version": "1.0.0",
+  "description": "A programmable Chrome for JS developers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "chrome"
+  ],
+  "author": "Antonis Karamitros @antouank",
+  "license": "ISC",
+  "dependencies": {
+    "consologger": "^0.1.41",
+    "ws": "^0.5.0"
+  }
+}
