@@ -1,37 +1,65 @@
 
 'use strict';
 
-var roboChrome,
+var Pickard,
     chromeCommunication = require('./lib/chrome-communication'),
-    portSeed = 9400;
+    portSeed = 9500;
 
 
 
-roboChrome = function(){
+Pickard = function(){
 
-  var thisRoboChrome = this;
+  var thisPickard = this,
+      loadDeferred = Promise.defer();
 
-  thisRoboChrome.config = {
-    port: portSeed += 1
+  thisPickard.config = {
+    port: portSeed
   };
 
-  thisRoboChrome.openPage = function(address){
+  //  promise for "load" event
+  thisPickard.whenLoad = loadDeferred.promise;
+
+  //  open a page and get the .websocket and .evaluate functions on 'this'
+  thisPickard.openPage = function(address){
 
     return chromeCommunication
     .launch({
-      port: thisRoboChrome.config.port,
+      port: thisPickard.config.port,
       address: address
     })
     .then(function(debugTab){
 
-      thisRoboChrome.websocket = debugTab.webSocketDebuggerUrl;
+      //  .websocket
+      thisPickard.websocket = debugTab.webSocketDebuggerUrl;
 
-      return chromeCommunication
-      .openSocket(thisRoboChrome, thisRoboChrome.websocket);
+      //  here comes .evaluate .ws and .write
+      var promise =
+      chromeCommunication
+      .openSocket(thisPickard, thisPickard.websocket);
+
+      promise
+      .then(chromeCommunication.prepareSocket)
+      .catch(function(err){
+        console.log(err);
+      });
+
+      return promise;
+    })
+    .then(function(){
+
+      console.log('evaluate');
+    })
+    .catch(function(err){
+      throw err;
     });
   };
 
-  return thisRoboChrome;
+  thisPickard.exit = function(){
+
+    chromeCommunication.exit();
+  };
+
+  return thisPickard;
 };
 
 
@@ -41,4 +69,4 @@ process
 });
 
 
-module.exports = roboChrome;
+module.exports = Pickard;

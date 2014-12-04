@@ -1,7 +1,7 @@
 {
-  "name": "robo-chrome",
+  "name": "pickard",
   "version": "1.0.0",
-  "description": "A programmable Chrome for JS developers",
+  "description": "A programmable Chrome Browser for JS developers",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

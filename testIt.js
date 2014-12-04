@@ -1,29 +1,48 @@
 
 'use strict';
 
-var RoboChrome = require('./index'),
-    roboOne;
+var Pickard = require('./index'),
+    pickardA,
+    pickardB;
 
 
-roboOne = new RoboChrome();
+pickardA = new Pickard();
 
 
-roboOne
-.openPage('www.github.com')
+pickardA
+.openPage('https://github.com/AntouanK')
 .then(function(){
 
-  setTimeout(function(){
-    roboOne
-    .evaluate('document.title;')
-    .then(function(res){
-      console.log(res);
-    });
+  pickardA
+  .evaluate('document.title;')
+  .then(function(res){
+    console.log('title response:', res);
+  });
 
-    roboOne
-    .evaluate('document.body  ;')
+  pickardA
+  .evaluate('document.readyState;')
+  .then(function(res){
+    console.log('document.readyState:', res);
+  });
+
+  pickardA
+  .onPageLoad
+  .then(function(){
+
+    pickardA
+    .evaluate('document.readyState;')
     .then(function(res){
-      console.log(res);
+      console.log('document.readyState:', res);
+      pickardA.exit();
     });
-  },1000);
+  });
+
+  // pickardA
+  // .evaluate("setTimeout(function(){ $('a').filter(function(i, ele){ return $(ele).text() === 'Sign in'; }).click(); }, 4000); ")
+  // .then(function(res){
+  //   console.log('res', res);
+  //
+  //   // pickardA.exit();
+  // });
 
 });

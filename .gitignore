@@ -1,3 +1,5 @@
 
 # ignore node modules directory
 node_modules/
+
+remote-profile/
