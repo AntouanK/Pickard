@@ -12,6 +12,8 @@ Pickard = function(){
   var thisPickard = this,
       loadDeferred = Promise.defer();
 
+  thisPickard.showDebug = false;
+
   thisPickard.config = {
     port: portSeed
   };

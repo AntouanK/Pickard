@@ -8,6 +8,7 @@ var Pickard = require('./index'),
 
 pickardA = new Pickard();
 
+// pickardA.showDebug = true;
 
 pickardA
 .openPage('https://github.com/AntouanK')
