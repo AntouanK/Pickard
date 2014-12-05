@@ -12,15 +12,21 @@ Pickard = function(){
   var thisPickard = this,
       loadDeferred = Promise.defer();
 
+
+  //  ------------------------------------------------------ Pickard.showDebug
   thisPickard.showDebug = false;
 
+  //  ------------------------------------------------------ Pickard.config
   thisPickard.config = {
     port: portSeed
   };
 
+  //  ------------------------------------------------------ Pickard.whenLoad
   //  promise for "load" event
   thisPickard.whenLoad = loadDeferred.promise;
 
+
+  //  ------------------------------------------------------ Pickard.openPage
   //  open a page and get the .websocket and .evaluate functions on 'this'
   thisPickard.openPage = function(address){
 
@@ -31,6 +37,7 @@ Pickard = function(){
     })
     .then(function(debugTab){
 
+      //  -------------------------------------------------- Pickard.websocket
       //  .websocket
       thisPickard.websocket = debugTab.webSocketDebuggerUrl;
 
@@ -56,6 +63,8 @@ Pickard = function(){
     });
   };
 
+
+  //  ------------------------------------------------------ Pickard.exit
   thisPickard.exit = function(){
 
     chromeCommunication.exit();
