@@ -8,10 +8,10 @@ var Pickard = require('./index'),
 
 pickardA = new Pickard();
 
-pickardA.showDebug = true;
+// pickardA.showDebug = true;
 
 pickardA
-.openPage('https://github.com/AntouanK')
+.openPage('https://betfair.com/exchange')
 .then(function(){
 
   pickardA
@@ -31,9 +31,9 @@ pickardA
   .then(function(){
 
     pickardA
-    .evaluate('document.readyState;')
+    .evaluate('performance.timing;')
     .then(function(res){
-      console.log('document.readyState:', res);
+      console.log('performance.timing:', res);
       pickardA.exit();
     });
   });
