@@ -3,6 +3,7 @@
 
 var Pickard,
     chromeCommunication = require('./lib/chrome-communication'),
+    log = require('consologger'),
     PORT = 9500;
 
 
@@ -12,6 +13,9 @@ Pickard = function(){
   var thisPickard = this,
       loadDeferred = Promise.defer();
 
+
+  //  increments on every Runtime.executionContextCreated event
+  this.contextId = 0;
 
   //  ------------------------------------------------------ Pickard.showDebug
   thisPickard.showDebug = false;
@@ -48,6 +52,9 @@ Pickard = function(){
 
       promise
       .then(chromeCommunication.prepareSocket)
+      .then(function(){
+        log.info('prepared');
+      })
       .catch(function(err){
         console.log(err);
       });
