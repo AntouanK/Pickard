@@ -3,10 +3,10 @@
 
 var Pickard,
     chromeCommunication = require('./lib/chrome-communication'),
-    portSeed = 9500;
+    PORT = 9500;
 
 
-
+//  main Pickard object
 Pickard = function(){
 
   var thisPickard = this,
@@ -18,7 +18,7 @@ Pickard = function(){
 
   //  ------------------------------------------------------ Pickard.config
   thisPickard.config = {
-    port: portSeed
+    port: PORT
   };
 
   //  ------------------------------------------------------ Pickard.whenLoad
@@ -54,10 +54,6 @@ Pickard = function(){
 
       return promise;
     })
-    .then(function(){
-
-      console.log('evaluate');
-    })
     .catch(function(err){
       throw err;
     });
@@ -79,5 +75,5 @@ process
   chromeCommunication.exit();
 });
 
-
+//  expose the module
 module.exports = Pickard;
