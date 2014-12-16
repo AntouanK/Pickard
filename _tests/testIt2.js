@@ -1,7 +1,7 @@
 
 'use strict';
 
-var Pickard = require('./index'),
+var Pickard = require('./../index'),
     log = require('consologger'),
     pickardA,
     pickardB;

@@ -1,10 +1,10 @@
 
 'use strict';
 
-var Pickard = require('./index'),
-log = require('consologger'),
-pickardA,
-pickardB;
+var Pickard = require('./../index'),
+    log = require('consologger'),
+    pickardA,
+    pickardB;
 
 
 pickardA = new Pickard();

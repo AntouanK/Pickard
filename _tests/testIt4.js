@@ -1,6 +1,6 @@
 'use strict';
 
-var Pickard = require('./index'),
+var Pickard = require('./../index'),
     johnPickard;
 
 //  make a new Pickard instance
