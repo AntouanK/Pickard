@@ -10,6 +10,11 @@
     "chrome"
   ],
   "author": "Antonis Karamitros @antouank",
+  "repository" :
+  {
+    "type" : "git",
+    "url" : "https://github.com/AntouanK/Pickard.git"
+  },
   "license": "ISC",
   "dependencies": {
     "consologger": "^0.1.41",
