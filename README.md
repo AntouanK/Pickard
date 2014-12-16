@@ -87,7 +87,7 @@ The promise will be resolved with the string that the expression will return.
 
 #### pickardInstance.evaluateFn(fn)
 - fn: function
-- 
+
 Same as `pickardInstance.evaluate()`, but instead of passing a string, we can pass a function to be evaluated.
 
 **NOTE** The function will be converted to a string in order to be send to the runtime of the page, so closures will not work.
