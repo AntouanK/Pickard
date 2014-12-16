@@ -10,8 +10,7 @@ var Pickard,
 //  main Pickard object
 Pickard = function(){
 
-  var thisPickard = this,
-      loadDeferred = Promise.defer();
+  var thisPickard = this;
 
 
   //  increments on every Runtime.executionContextCreated event
@@ -25,9 +24,6 @@ Pickard = function(){
     port: PORT
   };
 
-  //  ------------------------------------------------------ Pickard.whenLoad
-  //  promise for "load" event
-  thisPickard.whenLoad = loadDeferred.promise;
 
 
   //  ------------------------------------------------------ Pickard.openPage
@@ -53,7 +49,7 @@ Pickard = function(){
       promise
       .then(chromeCommunication.prepareSocket)
       .then(function(){
-        log.info('prepared');
+        thisPickard.showDebug && log.info('socket prepared');
       })
       .catch(function(err){
         console.log(err);
