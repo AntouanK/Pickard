@@ -1,3 +1,8 @@
+/*
+  Pickard module
+  @antouank 2014
+*/
+
 
 'use strict';
 
@@ -52,7 +57,7 @@ Pickard = function(){
         thisPickard.showDebug && log.info('socket prepared');
       })
       .catch(function(err){
-        console.log(err);
+        log.error(err);
       });
 
       return promise;
