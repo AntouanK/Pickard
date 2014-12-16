@@ -3,7 +3,7 @@
 Pickard is a node.js module, able to start a Chrome window, and provide an API to communicate with Chrome ( dev tools ).
 
 **NOTE**
-( work in progress, currently only for Mas OS X )
+( work in progress, currently works on Mas OS X and Ubuntu. For windows you need Chrome Canary )
 
 ### Sample
 
