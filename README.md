@@ -1,4 +1,5 @@
 # Pickard
+[![npm version](https://badge.fury.io/js/pickard.svg)](http://badge.fury.io/js/pickard)
 
 Pickard is a node.js module, able to start a Chrome window, and provide an API to communicate with Chrome ( dev tools ).
 
