@@ -3,7 +3,20 @@
 Pickard is a node.js module, able to start a Chrome window, and provide an API to communicate with Chrome ( dev tools ).
 
 **NOTE**
-( work in progress, currently works on Mas OS X and Ubuntu. For windows you need Chrome Canary )
+( work in progress, currently works on Mas OS X and Ubuntu. For windows you need Chrome Canary and specify the path manually )
+
+###Why?
+Usually, when a JS developer wants to control a browser, he'll do it with PhantomJS.
+Which also has the advantage of being headless, so it runs anywhere.
+
+Problem is that PhantomJS is based on an old version of webkit ( Chrome is now based on [blink](http://www.chromium.org/blink) ), and [it doesn't have a full time development team behind it](http://phantomjs.org/faq.html).
+Also communication with the page is not always a charm when you use a node phantomjs wrapper...
+Weird stuff happens and rendering can be not what you expected.
+
+So what if you could launch the latest Chrome ( even Canary ) and get all of the goodies that dev tools offer?
+You can have access to the console, to the network tab, anything...
+
+That's why I made `Pickard`.
 
 ### Sample
 
