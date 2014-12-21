@@ -30,6 +30,25 @@ Pickard = function(){
   };
 
 
+  //  ------------------------------------------------------ Pickard.onPageLoad
+  thisPickard.generateLoadPromise = function(){
+
+    thisPickard.pageLoadDeferred = Promise.defer();
+    thisPickard.pageLoadDeferred._timestamp = Date.now();
+
+    thisPickard.pageLoadDeferred
+    .promise
+    .then(function(){
+      thisPickard.generateLoadPromise();
+    });
+  };
+  //  first load event promise is born!
+  thisPickard.generateLoadPromise();
+  //  ------------------------------------------------------ Pickard.getNextPageLoad
+  thisPickard.getNextPageLoad = function(){
+    return thisPickard.pageLoadDeferred.promise;
+  };
+
 
   //  ------------------------------------------------------ Pickard.openPage
   //  open a page and get the .websocket and .evaluate functions on 'this'
@@ -42,7 +61,7 @@ Pickard = function(){
     })
     .then(function(debugTab){
 
-      //  -------------------------------------------------- Pickard.websocket
+      //  ------------------------------------------------------ Pickard.websocket
       //  .websocket
       thisPickard.websocket = debugTab.webSocketDebuggerUrl;
 
@@ -70,7 +89,6 @@ Pickard = function(){
 
   //  ------------------------------------------------------ Pickard.exit
   thisPickard.exit = function(){
-
     chromeCommunication.exit();
   };
 
