@@ -1,104 +1,78 @@
-
 'use strict';
 
-var Pickard = require('./../index'),
-    log = require('consologger'),
-    pickardA,
-    pickardB,
-    Utils = require('./../lib/utils');
+var Pickard = require('../index'),
+    johnPickard;
+
+//  make a new Pickard instance
+johnPickard = new Pickard();
 
 
-
-pickardA = new Pickard();
-
-// pickardA.showDebug = true;
-
-pickardA
+//  launch github.com page on Chrome
+johnPickard
 .openPage('github.com')
+//  wait for the "load" event to fire
 .then(function(){
 
-  pickardA
-  .onPageLoad
-  .then(function(){
-    log.verbose('\n[ evaluating ]\n','document.title;');
+  return johnPickard.getNextPageLoad();
+})
+.then(function(){
 
-    var returnTitle = function(){
+  //  let's run `document.title` in the console,
+  //  and get the string result back
+  return johnPickard.evaluate('document.title;')
+})
+.then(function(result){
+  console.log('document\'s title is:', result);
+})
+.then(function(){
 
-      return document.title;
-    };
+  //  we can use evaluateFn to pass a function, it's better than strings.
+  //  remember, this function will be send as a string and then evaluated
+  //  so closures do not work here, work only in the page context
+  return johnPickard.evaluateFn(function(){
 
-    var getTitle = pickardA.evaluateFn(returnTitle);
+    var topLogoEle = document.querySelector('.header-logo-wordmark');
 
-    getTitle
-    .then(function(title){
-      log.info('---> page title is', title);
-    });
-
-    return getTitle;
-  })
-  .then(Utils.delay(1000, true))
-  .then(function(){
-    log.verbose('\n[ evaluating ]\n','document.querySelector(\'[name="q"]\').value = "Pickard";');
-    return pickardA.evaluate('document.querySelector(\'[name="q"]\').value = "Pickard";');
-  })
-  .then(Utils.delay(1000, true))
-  .then(function(){
-
-    log.verbose('\n[ evaluating ]\n','$(\'form\').get(0).submit();');
-    return pickardA.evaluate('$(\'form\').get(0).submit();');
-  })
-  .then(Utils.delay(1000, true))
-  .then(function(){
-
-    log.verbose('\n[ evaluating ]\n','$(\'ul.repo-list .repo-list-item .repo-list-name a:eq(0)\').text();');
-    return pickardA.evaluate('$(\'ul.repo-list .repo-list-item .repo-list-name a:eq(0)\').text();');
-  })
-  .then(Utils.delay(1000, true))
-  .then(function(firstResult){
-    console.log('firstResult is', firstResult);
-
-    log.verbose('\n[ evaluating ]','$(document.querySelector(\'ul.repo-list .repo-list-item .repo-list-name a\')).click()');
-    return pickardA.evaluate('$(document.querySelector(\'ul.repo-list .repo-list-item .repo-list-name a\')).click()');
-  })
-  .then(Utils.delay(1500, true))
-  .then(function(){
-
-    log.warning(' we are closing Chrome now...');
-    pickardA.exit();
+    //  remember to make the console print a string
+    //  it's the only way to get something useful back
+    return topLogoEle.attributes.href.value;
   });
+})
+.then(function(result){
+  //  do something with the result of our previous function
+  //  we assume it returns a string...
+  console.log('href :', result);
+})
+.then(function(){
 
+  return johnPickard.evaluateFn(function(){
 
-  // pickardA
-  // .evaluate('document.title;')
-  // .then(function(res){
-  //   console.log('title response:', res);
-  // });
-  //
-  // pickardA
-  // .evaluate('document.readyState;')
-  // .then(function(res){
-  //   console.log('document.readyState:', res);
-  // });
-  //
-  // pickardA
-  // .onPageLoad
-  // .then(function(){
-  //
-  //   pickardA
-  //   .evaluate('performance.timing;')
-  //   .then(function(res){
-  //     console.log('performance.timing:', res);
-  //     pickardA.exit();
-  //   });
-  // });
-  //
-  // // pickardA
-  // // .evaluate("setTimeout(function(){ $('a').filter(function(i, ele){ return $(ele).text() === 'Sign in'; }).click(); }, 4000); ")
-  // // .then(function(res){
-  // //   console.log('res', res);
-  // //
-  // //   // pickardA.exit();
-  // // });
+    //  fill in the input
+    document.querySelector('input[name="q"]').value = "Pickard";
 
+    //  submit the form
+    document.querySelector('form[action="/search"]').submit();
+  });
+})
+.then(function(){
 
+  //  wait for the "load" event to fire
+  return johnPickard.getNextPageLoad();
+})
+.then(function(){
+
+  //  let's print the first result
+  return johnPickard.evaluateFn(function(){
+    return document.querySelector('.repo-list-item.public.source h3 a').textContent;
+  });
+})
+.then(function(textContent){
+
+  console.log('textContent of first item is ', textContent);
+})
+//  close the Chrome window
+.then(johnPickard.exit)
+//  errors do happen...
+.catch(function(err){
+  throw err;
 });

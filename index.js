@@ -15,7 +15,8 @@ var Pickard,
 //  main Pickard object
 Pickard = function(){
 
-  var thisPickard = this;
+  var thisPickard = this,
+      generateLoadPromise;
 
 
   //  increments on every Runtime.executionContextCreated event
@@ -30,8 +31,7 @@ Pickard = function(){
   };
 
 
-  //  ------------------------------------------------------ Pickard.onPageLoad
-  thisPickard.generateLoadPromise = function(){
+  generateLoadPromise = function(){
 
     thisPickard.pageLoadDeferred = Promise.defer();
     thisPickard.pageLoadDeferred._timestamp = Date.now();
@@ -39,11 +39,12 @@ Pickard = function(){
     thisPickard.pageLoadDeferred
     .promise
     .then(function(){
-      thisPickard.generateLoadPromise();
+      thisPickard.showDebug && log.info('load promise resolved! making new one...');
+      generateLoadPromise();
     });
   };
   //  first load event promise is born!
-  thisPickard.generateLoadPromise();
+  generateLoadPromise();
   //  ------------------------------------------------------ Pickard.getNextPageLoad
   thisPickard.getNextPageLoad = function(){
     return thisPickard.pageLoadDeferred.promise;

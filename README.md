@@ -1,5 +1,5 @@
 # Pickard
-![package version](http://img.shields.io/badge/version-1.0.51-lightgrey.svg?style=flat)
+![package version](http://img.shields.io/badge/version-1.0.52-lightgrey.svg?style=flat)
 ![node version required](http://img.shields.io/badge/node-%3E%3D0.11.13-green.svg?style=flat)
 
 ![osx test](http://img.shields.io/badge/OSX-working-green.svg?style=flat)
@@ -35,55 +35,87 @@ var Pickard = require('pickard'),
 //  make a new Pickard instance
 johnPickard = new Pickard();
 
-//  launch a page on Chrome
+
+//  launch github.com page on Chrome
 johnPickard
 .openPage('github.com')
+//  wait for the "load" event to fire
 .then(function(){
 
-  //	wait for the "load" event to fire
-  return johnPickard
-  .onPageLoad;
-  //   we return that promise so we can chain the next one
+  return johnPickard.getNextPageLoad();
 })
 .then(function(){
 
   //  let's run `document.title` in the console,
   //  and get the string result back
-  return johnPickard
-  //  .evaluate takes a string which will be evaluated in the
-  //  page runtime ( like writing something in the dev tools console )
-  .evaluate('document.title;')
-  .then(function(result){
-    console.log('document\'s title is:', result);
-  });
-  //   we return that promise so we can chain the next one
+  return johnPickard.evaluate('document.title;')
+})
+.then(function(result){
+  console.log('document\'s title is:', result);
 })
 .then(function(){
 
+  //  we can use evaluateFn to pass a function, it's better than strings.
   //  remember, this function will be send as a string and then evaluated
   //  so closures do not work here, work only in the page context
-  var getLogoHref = function(){
+  return johnPickard.evaluateFn(function(){
 
     var topLogoEle = document.querySelector('.header-logo-wordmark');
 
     //  remember to make the console print a string
     //  it's the only way to get something useful back
     return topLogoEle.attributes.href.value;
-  };
-
-  //  we can use evaluateFn to pass a function
-  //  strings as functions are not nice...
-  return johnPickard
-  .evaluateFn(getLogoHref)
-  .then(function(result){
-    console.log('href :', result);
   });
-  //   we return that promise so we can chain the next one
+})
+.then(function(result){
+  //  do something with the result of our previous function
+  //  we assume it returns a string...
+  console.log('href :', result);
 })
 .then(function(){
-  //  close the Chrome window
-  johnPickard.exit();
+
+  return johnPickard.evaluateFn(function(){
+
+    //  fill in the input
+    document.querySelector('input[name="q"]').value = "Pickard";
+
+    //  submit the form
+    document.querySelector('form[action="/search"]').submit();
+  });
+})
+.then(function(){
+
+  //  wait for the "load" event to fire
+  return johnPickard.getNextPageLoad();
+})
+.then(function(){
+
+  //  let's print the first result
+  return johnPickard.evaluateFn(function(){
+    return document.querySelector('.repo-list-item.public.source h3 a').textContent;
+  });
+})
+.then(function(textContent){
+
+  console.log('textContent of first item is ', textContent);
+})
+//  close the Chrome window
+.then(johnPickard.exit)
+//  errors do happen...
+.catch(function(err){
+  throw err;
 });
+
+/*
+  output should be:
+
+  locateServer(config.port) 9500
+  chrome launched in 914 ms
+  document's title is: GitHub · Build software better, together.
+  href : https://github.com/
+  textContent is  AntouanK/Pickard
+  chrome-communication.exit();
+*/
 ```
 
 ## API
