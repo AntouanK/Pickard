@@ -1,5 +1,5 @@
 # Pickard
-![package version](http://img.shields.io/badge/version-1.0.51-lightgrey.svg?style=flat)
+[![package version](http://img.shields.io/badge/version-1.0.51-lightgrey.svg?style=flat)](https://www.npmjs.com/package/pickard)
 ![node version required](http://img.shields.io/badge/node-%3E%3D0.11.13-green.svg?style=flat)
 
 ![osx test](http://img.shields.io/badge/OSX-working-green.svg?style=flat)
