@@ -1,5 +1,5 @@
 # Pickard
-![package version](http://img.shields.io/badge/version-1.0.4-lightgrey.svg?style=flat)
+![package version](http://img.shields.io/badge/version-1.0.5-lightgrey.svg?style=flat)
 ![node version required](http://img.shields.io/badge/node-%3E%3D0.11.13-green.svg?style=flat)
 
 ![osx test](http://img.shields.io/badge/OSX-working-green.svg?style=flat)
@@ -114,6 +114,10 @@ Same as `pickardInstance.evaluate()`, but instead of passing a string, we can pa
 **NOTE** The function will be converted to a string in order to be send to the runtime of the page, so closures will not work.
 Try to make your function print a string so that you can take a useful result back.
 
+#### pickardInstance.getNextPageLoad()
+- returns -> Promise
+
+Get the next load event.
 
 #### pickardInstance.exit()
 kills the Chrome window that this pickard instance opened.
